@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "nexe ./src/index.js --verbose -o qbittorrent-starter.exe --target 15.5.0 --build"
+    "build": "nexe ./src/index.js --verbose -o qbittorrent-starter.exe --target 15.5.0 --build --ico ./icon.ico"
   },
   "author": "grosmar",
   "license": "ISC",
