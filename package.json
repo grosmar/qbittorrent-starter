@@ -1,0 +1,19 @@
+{
+  "name": "qbittorrent-starter",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "nexe ./src/index.js --verbose -o qbittorrent-starter.exe --target 15.5.0 --build"
+  },
+  "author": "grosmar",
+  "license": "ISC",
+  "dependencies": {
+    "@ctrl/qbittorrent": "^5.1.0",
+    "argparse": "^2.0.1",
+    "inquirer": "^9.1.4",
+    "tmdb": "^2.6.0"
+  }
+}
