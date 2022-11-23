@@ -104,3 +104,4 @@ dist
 .tern-port
 /out.log
 /qbittorrent-starter.exe
+/*.torrent

@@ -52,13 +52,19 @@ async function getContentByName(name)
         let matches = []
         if (data.season)
         {
-            result = await tmdb.get("search/tv", {query:data.title, first_air_date_year:data.year || null} );
+            let query = {query:data.title};
+            if (data.year)
+                query.first_air_date_year = parseInt(data.year);
+            result = await tmdb.get("search/tv", query );
             matches = result.results.map(r => (
                 {title: r.name, year: r.firstAirDate ? r.firstAirDate.split("-")[0] : data.year, season: data.season, episode: data.episode}));
         }
         else
         {
-            result = await tmdb.get("search/movie", {query:data.title, year:data.year || null} );
+            let query = {query:data.title};
+            if (data.year)
+                query.year = parseInt(data.year);
+            result = await tmdb.get("search/movie", query );
             matches = result.results.map(r => (
                 {title: r.title, year: r.releaseDate ? r.releaseDate.split("-")[0] : data.year}));
         }

@@ -1,8 +1,8 @@
 {
-    "server": "https://example.com/qbittorrent",
-    "user": "admin",
-    "pass": "admin/admin",
-    "moviesroot": "/home/myuser/share/Movies",
-    "tvshowsroot": "/home/myuser/share/Series",
-    "launch": "Electorrent.exe"
+    "server": "https://grosmar.art/qbittorrent",
+    "user": "grosmar",
+    "pass": "zdzubi",
+    "moviesroot": "/home/pi/share/Movies",
+    "tvshowsroot": "/home/pi/share/Series",
+    "launch": "C:\\Users\\zubak\\AppData\\Local\\electorrent\\Electorrent.exe"
 }
