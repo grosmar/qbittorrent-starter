@@ -54,13 +54,13 @@ async function getContentByName(name)
         {
             result = await tmdb.get("search/tv", {query:data.title, first_air_date_year:data.year || null} );
             matches = result.results.map(r => (
-                {title: r.originalName, year: r.firstAirDate ? r.firstAirDate.split("-")[0] : data.year, season: data.season, episode: data.episode}));
+                {title: r.name, year: r.firstAirDate ? r.firstAirDate.split("-")[0] : data.year, season: data.season, episode: data.episode}));
         }
         else
         {
             result = await tmdb.get("search/movie", {query:data.title, year:data.year || null} );
             matches = result.results.map(r => (
-                {title: r.originalTitle, year: r.releaseDate ? r.releaseDate.split("-")[0] : data.year}));
+                {title: r.title, year: r.releaseDate ? r.releaseDate.split("-")[0] : data.year}));
         }
         
         matches = matches.filter((v, i, a) => a.findIndex(e => e.title.toLowerCase() == v.title.toLowerCase() && e.year == v.year) === i);
@@ -81,8 +81,8 @@ async function getContentByName(name)
 function generatePath(content, movieRoot, tvShowRoot)
 {
     let safeTitle = content.title.replaceAll(/[:?<>"/|*\\]/g, " - ").replaceAll(/ +/g, " ");
-    return content.season ? `${tvShowRoot}/${safeTitle}${content.year && ` (${content.year})`}/Season ${content.season}` :
-        `${movieRoot}/${safeTitle}${content.year && ` (${content.year})`}`;
+    return content.season ? `${tvShowRoot}/${safeTitle}${content.year ? ` (${content.year})` : ""}/Season ${content.season}` :
+        `${movieRoot}/${safeTitle}${content.year ? ` (${content.year})` : ""}`;
 }
 
 async function chooseContent(originalFile, contents)
@@ -93,7 +93,7 @@ async function chooseContent(originalFile, contents)
             type: 'list',
             name: "content",
             message: 'Select matching content for ' + originalFile,
-            choices: contents.map(c => ({name:`${c.title}${c.year && ` (${c.year})`}`, value:c})).concat([new inquirer.Separator(), "Custom"]),
+            choices: contents.map(c => ({name:`${c.title}${c.year ? ` (${c.year})` : ""}`, value:c})).concat([new inquirer.Separator(), "Custom"]),
         },
         {
             type: 'input',

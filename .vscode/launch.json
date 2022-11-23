@@ -6,7 +6,8 @@
             "request": "launch",
             "name": "Launch Program",
             "console": "integratedTerminal", // <= the relevant part
-            "program": "${workspaceFolder}/index.js"
+            "program": "${workspaceFolder}/src/index.js",
+            "args": ["[hdser_eng]Cyberpunk.Edgerunners.S01.1080p.NF.WEB-DL.DDP5.1.DV.HDR.torrent", "--dev"]
         }
     ]
 }

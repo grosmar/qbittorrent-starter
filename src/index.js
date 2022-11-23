@@ -17,18 +17,6 @@ process.on('uncaughtException', function(err) {
 
   
 let info = fs.readFileSync('./package.json');
-let settings = {};
-
-try 
-{
-    settings = JSON.parse(fs.readFileSync(path.dirname(process.execPath) + '/settings.json'));
-}
-catch
-{
-    console.log("Missing settings.json file.");
-    process.exit(1);
-}
-
 
 
 
@@ -41,6 +29,7 @@ function loadArguments()
     let version = info.version;
     parser.add_argument('file', { help: 'Torrent file' });
     parser.add_argument('-v', '--version', { action: 'version', version });
+    parser.add_argument('-d', '--dev', { action: "store_true", help: 'need to be used during development' });
     /*parser.add_argument('-s', '--server', { help: 'qbittorrent webui url' });
     parser.add_argument('-u', '--user', { help: 'qbittorrent webui username' });
     parser.add_argument('-p', '--pass', { help: 'qbittorrent webui password' });
@@ -51,10 +40,25 @@ function loadArguments()
     return parser.parse_args();
 }
 
+function loadSettings(isDev)
+{
+    let settings = {};
+    try 
+    {
+        settings = JSON.parse(fs.readFileSync((isDev ? process.cwd() : path.dirname(process.execPath)) + '/settings.json'));
+        return settings;
+    }
+    catch
+    {
+        console.log("Missing settings.json file.");
+        process.exit(1);
+    }
+}
 
 async function start()
 {
     let params = loadArguments();
+    let settings= loadSettings(params.dev);
     let args = {...settings, ...params};
     
     console.log(params.file);
@@ -72,9 +76,11 @@ async function start()
         await client.addTorrent(fs.readFileSync(args.file), {
             firstLastPiecePrio: "true",
             sequentialDownload: content.path.includes("/Season ") ? "true" : "false",
-            rename: content.title + (content.year && ` (${content.year})`), 
+            rename: `${content.title}${content.year ? ` (${content.year})` : ""}${content.season ? ` S${content.season}` : ""}${content.episode ? ` E${content.episode}` : ""}`, 
             savepath: content.path,
-            contentLayout: "NoSubfolder"
+            root_folder: "false",
+            ratioLimit: 1,
+            seedingTimeLimit: 4320
         })
     }
     catch (e)
