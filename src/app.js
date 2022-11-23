@@ -127,7 +127,7 @@ export default async function getPathForFile(file, movieRoot, tvShowRoot)
     else
     {
         content = await chooseContent(file, contents);
-        path = generatePath(choice, movieRoot, tvShowRoot);
+        path = generatePath(content, movieRoot, tvShowRoot);
     }
     content.path = path;
     return content;
